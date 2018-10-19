@@ -1,0 +1,25 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.KPIMapper">
+    <resultMap id="KpiMap" type="Kpi">
+        <id property="idKPI" column="id_kpi" />
+        <result property="name" column="name" />
+        <result property="targetValue" column="target" />
+        <result property="recordStatus" column="record_status" />
+        <association property="target" javaType="Target">
+            <result column="id_target" property="idTarget"></result>
+            <result property="name" column="name" />
+            <result property="description" column="description" />
+            <result property="initDate" column="init_date" />
+            <result property="finishDate" column="finish_date" />
+        </association>
+        <association property="metricDetail" javaType="MetricDetail">
+            <result column="id_metric_detail" property="idMetricDetail"></result>
+        </association>
+    </resultMap>
+    <select id="create" resultMap="KpiMap" parameterType="Kpi" statementType="CALLABLE">call spi_kpi(#{target.idTarget},#{metricDetail.idMetricDetail},#{name},#{targetValue},true,#{idKPI,jdbcType=NUMERIC, javaType=java.lang.String, mode=OUT});</select>
+    <select id="update" resultType="Integer" parameterType="Kpi">call spu_kpi(#{target.idTarget},#{metricDetail.idMetricDetail},#{name},#{targetValue},true,#{idKPI});</select>
+    <select id="delete" resultType="Integer" parameterType="Kpi">call spd_kpi(#{id_kpi});</select>
+    <select id="read" resultMap="KpiMap">select * from kpi k,target t, metric_detail m  where k.id_target=t.id_target and k.id_metric_detail=m.id_metric_detail and k.record_status=1 and t.record_status=1 and m.record_status=1</select>
+    <select id="getById"  parameterType="Integer" resultMap="KpiMap">select * from kpi k,target t, metric_detail m  where k.id_target=t.id_target and k.id_metric_detail=m.id_metric_detail and k.record_status=1 and t.record_status=1 and m.record_status=1 and id_kpi = #{idKPI};</select>
+    <select id="getByName"  parameterType="String" resultMap="KpiMap">select * from kpi k,target t, metric_detail m  where k.id_target=t.id_target and k.id_metric_detail=m.id_metric_detail and k.record_status=1 and t.record_status=1 and m.record_status=1 and k.name = #{name};</select>
+</mapper>

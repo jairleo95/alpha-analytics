@@ -1,0 +1,23 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.UserDataMapper">
+    <resultMap id="UserDataMap" type="UserData">
+        <id property="idUser" column="id_user" />
+        <result property="username" column="username" />
+        <result property="userPassword" column="user_password" />
+        <result property="email" column="email" />
+        <result property="fullName" column="full_name" />
+        <result property="lastName" column="last_name" />
+        <result property="gender" column="gender" />
+        <result property="documentType" column="document_type" />
+        <result property="documentNumber" column="documment_number" />
+        <result property="cellphone" column="cellphone" />
+        <result property="birthdate" column="birthdate" />
+        <result property="recordStatus" column="record_status" />
+    </resultMap>
+    <select id="create" parameterType="UserData" resultMap="UserDataMap" statementType="CALLABLE">call spi_user_data(#{username},#{userPassword},#{email},#{fullName},#{lastName},#{gender},#{documentType},#{documentNumber},#{cellphone},#{birthdate},true,#{idUser,jdbcType=NUMERIC, javaType=java.lang.String, mode=OUT});</select>
+    <select id="read" resultMap="UserDataMap">select * from user_data where record_status=1;</select>
+    <select id="update" resultType="Integer" parameterType="UserData">call spu_user_data(#{username},#{userPassword},#{email},#{fullName},#{lastName},#{gender},#{documentType},#{documentNumber},#{cellphone},#{birthdate},true,#{idUser});</select>
+    <select id="delete" resultType="Integer" parameterType="UserData">call spd_user_data(#{id_user});</select>
+    <select id="getById" resultMap="UserDataMap" parameterType="Integer">select * from user_data where id_user = #{idUser}</select>
+    <select id="getByName" resultMap="UserDataMap" parameterType="String">select * from user_data where username = #{username}</select>
+</mapper>

@@ -1,0 +1,26 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.ChannelAccessMapper">
+    <resultMap id="ChannelAccessMap" type="ChannelAccess">
+        <id property="idChannelAccess" column="id_channel_access" />
+        <result property="pageId" column="page_id" />
+        <result property="appId" column="app_id" />
+        <result property="appSecret" column="app_secret" />
+        <result property="address" column="address" />
+        <result property="recordStatus" column="record_status" />
+        <association property="digitalChannel" javaType="DigitalChannel">
+            <result column="id_digital_channel" property="idDigitalChannel"></result>
+            <result column="name" property="name"></result>
+            <result column="channel_type" property="channelType"></result>
+        </association>
+    </resultMap>
+        <select id="create" resultMap="ChannelAccessMap" parameterType="ChannelAccess" statementType="CALLABLE">
+            call spi_channel_access(#{digitalChannel.idDigitalChannel},#{pageId},#{appId},#{appSecret},#{address},true,#{idChannelAccess,jdbcType=NUMERIC, javaType=java.lang.String, mode=OUT});</select>
+        <select id="update" resultType="Integer" parameterType="ChannelAccess">
+            call spu_channel_access(#{idDigitalChannel.idDigitalChannel},#{pageId},#{appId},#{appSecret},#{address},true);</select>
+        <select id="delete" resultType="Integer" parameterType="ChannelAccess">
+            call spd_channel_access(#{id_channel_access});</select>
+        <select id="read" resultMap="ChannelAccessMap">select * from channel_access  c, digital_channel d where c.record_status=1 and c.id_digital_channel= d.id_digital_channel;</select>
+        <select id="getById"  parameterType="Integer" resultMap="ChannelAccessMap">
+        select * from channel_access  c, digital_channel d where c.record_status=1 and c.id_digital_channel= d.id_digital_channel and c.id_channel_access = #{idChannelAccess};
+        </select>
+</mapper>

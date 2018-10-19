@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD Config 3.1//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+   <typeAliases>
+        <typeAlias alias="UserData" type="com.alphateam.bean.UserData"></typeAlias>
+        <typeAlias alias="ChannelAccess" type="com.alphateam.bean.ChannelAccess"></typeAlias>
+        <typeAlias alias="DigitalChannel" type="com.alphateam.bean.DigitalChannel"></typeAlias>
+        <typeAlias alias="Kpi" type="com.alphateam.bean.KPI"></typeAlias>
+        <typeAlias alias="Metric" type="com.alphateam.bean.Metric"></typeAlias>
+        <typeAlias alias="MetricDetail" type="com.alphateam.bean.MetricDetail"></typeAlias>
+        <typeAlias alias="Target" type="com.alphateam.bean.Target"></typeAlias>
+        <typeAlias alias="Token" type="com.alphateam.bean.Token"></typeAlias>
+    </typeAliases>
+    
+    <mappers>
+        <mapper resource="com/alphateam/mapper/UserDataMapper.xml" />
+        <mapper resource="com/alphateam/mapper/ChannelAccessMapper.xml" />
+        <mapper resource="com/alphateam/mapper/DigitalChannelMapper.xml" />
+        <mapper resource="com/alphateam/mapper/KpiMapper.xml" />
+        <mapper resource="com/alphateam/mapper/MetricMapper.xml" />
+        <mapper resource="com/alphateam/mapper/MetricDetailMapper.xml" />
+        <mapper resource="com/alphateam/mapper/TargetMapper.xml" />
+        <mapper resource="com/alphateam/mapper/TokenMapper.xml" />
+        <mapper resource="com/alphateam/mapper/UserDataMapper.xml" />
+    </mappers>
+</configuration>

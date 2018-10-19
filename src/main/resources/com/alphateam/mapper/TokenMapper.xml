@@ -1,0 +1,29 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.TokenMapper">
+    <resultMap id="TokenMap" type="Token">
+        <id property="idToken" column="id_token" />
+        <result property="stringToken" column="string_token" />
+        <result property="expirationDate" column="expiration_date" />
+        <result property="tokenType" column="token_type" />
+        <result property="recordStatus" column="record_status" />
+        <association property="channelAccess" javaType="ChannelAccess">
+            <result column="id_channel_access" property="idChannelAccess"></result>
+            <result column="page_id" property="pageId"></result>
+            <result column="app_id" property="appId"></result>
+            <result column="app_secret" property="appSecret"></result>
+            <result column="address" property="address"></result>
+            <result column="record_status" property="recordStatus"></result>
+        <association property="digitalChannel" javaType="DigitalChannel">
+            <result column="id_digital_channel" property="idDigitalChannel"></result>
+            <result column="name" property="name"></result>
+            <result column="channel_type" property="channelType"></result>
+        </association>
+        </association>
+    </resultMap>
+        <select id="create" resultMap="TokenMap" parameterType="Token" statementType="CALLABLE">call spi_token(#{channelAccess.idChannelAccess},#{stringToken},#{expirationDate},#{tokenType},true,#{idToken,jdbcType=NUMERIC, javaType=java.lang.String, mode=OUT});</select>
+        <select id="read" resultMap="TokenMap">select * from token t, channel_access c , digital_channel d where t.record_status=1 and c.record_status = 1 and t.id_channel_access=c.id_channel_access and c.id_digital_channel=d.id_digital_channel;</select>
+        <select id="update" resultType="Integer" parameterType="Token">call spu_token(#{channelAccess.idChannelAccess},#{stringToken},#{expirationDate},#{tokenType},true);</select>
+        <select id="delete" resultType="Integer" parameterType="Token">call spd_token(#{id_token});</select>
+        <select id="getById"  parameterType="Integer" resultMap="TokenMap">select * from token t, channel_access c , digital_channel d where t.record_status=1 and c.record_status = 1 and t.id_channel_access=c.id_channel_access and c.id_digital_channel=d.id_digital_channel and t.id_token = #{idToken};</select>
+        <select id="getByStringToken"  parameterType="String" resultMap="TokenMap">select * from token t, channel_access c , digital_channel d where t.record_status=1 and c.record_status = 1 and t.id_channel_access=c.id_channel_access and c.id_digital_channel=d.id_digital_channel and t.string_token =#{stringToken};</select>
+</mapper>

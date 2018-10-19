@@ -1,0 +1,149 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-cloud"></i> Connections</h1>
+    </div>
+</div>
+
+<!-- widget grid -->
+<section id="widget-grid">
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 text-center fb-column">
+            <div class="well well-light">
+                <h1><i class="fa fa-facebook fa-2x"></i><span> Facebook Graph API</span></h1>
+            </div>
+            <div class="well well-light">
+                <button class="btn btn-default btn-circle btn-lg btn-add-fb" type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                <span> Add a new access</span>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center ga-column">
+            <div class="well well-light">
+                <h1><i class="fa fa-google fa-2x"></i><span> Google Analytics</span></h1>
+            </div>
+            <div class="well well-light">
+                <button class="btn btn-default btn-circle btn-lg btn-add-ga" type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                <span> Add a new access</span>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center yt-column">
+            <div class="well well-light">
+                <h1><i class="fa fa-youtube fa-2x"></i><span> Youtube Analytics</span></h1>
+            </div>
+            <div class="well well-light">
+                <button class="btn btn-default btn-circle btn-lg btn-add-yt" type="button"><i class="glyphicon glyphicon-plus"></i></button>
+                <span> Add a new access</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 access-settings" style="display: none;">
+            <div class="well well-light">
+                <div>
+                    <div class="">
+                        <form  class="form-horizontal form-access-settings">
+                            <fieldset>
+                                <legend>
+                                    Channel Access
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-md-2 col-lg-3 control-label">Page id</label>
+                                    <div class="col-xs-10 col-md-10 col-lg-3 inputGroupContainer">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="pageId"  />
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                        </div>
+                                    </div>
+                                    <label class="col-xs-2 col-md-2 col-lg-2 control-label">App id</label>
+                                    <div class="col-xs-10 col-md-10 col-lg-3 inputGroupContainer">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="appId" />
+                                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">App Key Secret</label>
+                                    <div class="col-xs-10 col-lg-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <input type="password" autocomplete="off" value="" class="form-control" name="appSecret" />
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-info" type="button">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">API Address</label>
+                                    <div class="col-xs-10 col-lg-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="address" />
+                                            <span class="input-group-addon"><i class="fa fa-cloud"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>
+                                    Token Access
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">String Token</label>
+                                    <div class="col-xs-10 col-lg-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control stringToken" name="stringToken" />
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-info fbButton" type="button">
+                                                    <i class="fa fa-refresh"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">Token Type</label>
+                                    <div class="col-xs-10 col-lg-3 selectContainer">
+                                        <select class="form-control" name="tokenType">
+                                            <option value="1">User Token</option>
+                                            <option value="2">Large</option>
+                                            <option value="3">Small</option>
+                                        </select>
+                                    </div>
+                                    <label class="col-xs-2 col-lg-2 control-label">Expiration Date</label>
+                                    <div class="col-xs-10 col-lg-4">
+                                        <!--<label class="control-label">12/12/2017 10:10:00</label>-->
+                                        <label class="control-label expirationDate"></label>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3" id="status"></div>
+                            </fieldset>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-danger pull-left btn-cancel-settings" type="button">
+                                            Cancel
+                                        </button>
+                                        <button class="btn btn-light" type="submit">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>-->
+<script src="../../js/business-logic/digital-channel/connections.js"></script>

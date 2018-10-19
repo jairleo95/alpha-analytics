@@ -1,0 +1,52 @@
+<div id="main">
+    <div class="row">
+        <div
+            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hidden-xs hidden-sm">
+            <h1 class="text-info login-header-big text-center">Alpha Analytics</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-md-offset-4">
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 ">
+                <div class="well no-padding">
+                    <form   id="login-form" class="form-horizontal formLogin"   autocomplete="off"  >
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="icon-addon addon-md">
+                                        <input id="username"
+                                               type="text" name="username" placeholder="Username" maxlength="20" autocomplete="off"
+                                               onkeypress="return soloLetrasNumeros(event);" class="form-control username" required="">
+                                        <label  class="fa fa-user fa-lg fa-fw" rel="tooltip"   data-original-title="Complete este campo"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="input-group" style="width: 100%;">
+                                        <div class="icon-addon addon-md">
+                                            <input id="password" required="" name="password"  type="password" placeholder="Password" maxlength="50" autocomplete="off" class="form-control password"
+                                                   onkeypress="return soloLetrasNumeros(event);" style="width: 100%;">
+                                            <span class="fa fa-lock fa-lg fa-fw lbPassword" rel="tooltip" style="z-index: 5;"   data-original-title="Complete este campo"></span>
+                                        </div>
+                                        <span class="input-group-btn" >
+                                            <button class="btn btn-default btnEnter" type="submit" disabled="" name="btnEnter"><i class="fa fa-sign-in fa-lg" ></i></button>
+                                        </span>   
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning fade in box_cargando" style="display:none">
+                                <button class="close" data-dismiss="alert" ></button>
+                                <i class="fa-fw fa fa-warning"></i>  
+                                <span class="texto_box_h">Conectando...</span>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script   src="../js/security/loginBody.js"></script>

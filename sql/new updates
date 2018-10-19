@@ -1,0 +1,7 @@
+INSERT INTO `digitalchannel` (`idDigitalChannel`, `name`, `typeChannel`) VALUES (NULL, 'FaceBook SOCEIS', '1');
+INSERT INTO `businesstarget` (`idBusinessTarget`, `idUser`, `idDigitalChannel`, `name`, `description`, `recordStatus`) VALUES ('', '1', '1', 'Audience', 'Get more audience ', '1');
+
+INSERT INTO `channelaccess` (`idChannelAcces`, `idDigitalChannel`, `pageId`, `appId`, `appSecret`, `address`, `recordStatus`) VALUES (NULL, '1', '34234234', '234234234234234', 'asdfdg345345wgsdfa445', 'https://graph.facebook.com/v2.7', '1');
+
+
+https://books.google.com.pe/books?id=_sTIKphRNCAC&printsec=frontcover&dq=marketing+directo&hl=en&sa=X&ved=0ahUKEwicluPrj9bWAhWLkZAKHe0YAi0Q6AEILjAB#v=onepage&q=marketing%20directo&f=false

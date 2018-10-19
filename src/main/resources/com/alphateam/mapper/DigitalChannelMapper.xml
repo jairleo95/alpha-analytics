@@ -1,0 +1,14 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.DigitalChannelMapper">
+    <resultMap id="DigitalChannelMap" type="DigitalChannel">
+        <id property="idDigitalChannel" column="id_digital_channel" />
+        <result property="name" column="name" />
+        <result property="channelType" column="channel_type" />
+    </resultMap>
+    <select id="read" resultMap="DigitalChannelMap">
+      select * from digital_channel</select>
+    <select id="getById"  parameterType="Integer" resultMap="DigitalChannelMap">
+      select * from digital_channel where id_digital_channel = #{idDigitalChannel} and record_status=1;</select>
+    <select id="getByName"  parameterType="String" resultMap="DigitalChannelMap">
+        select * from digital_channel where name = #{name} and record_status=1;</select>
+</mapper>

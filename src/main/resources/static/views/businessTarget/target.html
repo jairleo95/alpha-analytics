@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-cloud"></i> Business Target <span>> Funnel Conversion</span></h1>
+    </div>
+</div>
+<!-- widget grid -->
+<section id="widget-grid" class="">
+    <div class="row">
+        <div class=" col-sm-offset-1 col-sm-10">
+            <div class="jarviswidget" id="wid-id-3"
+                 data-widget-colorbutton="false"
+                 data-widget-editbutton="false"
+                 data-widget-togglebutton="false"
+                 data-widget-deletebutton="false"
+                 data-widget-fullscreenbutton="false"
+                 data-widget-custombutton="false"
+                 data-widget-collapsed="false"
+                 data-widget-sortable="false"
+            >
+                <header>
+                    <h2>Configure Target</h2>
+                </header>
+                <div>
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                        <input class="form-control" type="text">
+                    </div>
+                    <div class="widget-body">
+                        <form class="form-horizontal target-form" role="form" action="crud" method="POST">
+                            <fieldset>
+                                <legend>
+                                    Digital Channel
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">Channel Name</label>
+                                    <div class="col-xs-8 col-lg-8 selectContainer">
+                                            <select class="form-control digitalChannel" name="channel">
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>
+                                    Business Target
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">Name</label>
+                                    <div class="col-xs-8 col-lg-3 inputGroupContainer">
+                                        <input type="text"  value="" class="form-control" name="name" />
+                                    </div>
+                                    <label class="col-xs-2 col-sm-2 col-lg-1 control-label">Description</label>
+                                    <div class="col-xs-8 col-sm-3 col-lg-3 inputGroupContainer">
+                                        <input type="text"  value="" class="form-control" name="description" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">Start</label>
+                                    <div class="col-xs-10 col-sm-3 col-lg-3 inputGroupContainer">
+                                        <div class="input-group input-append dates">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                            <input class="form-control start"  name="start" type="text" data-mask="99/99/9999" data-mask-placeholder= "_"  />
+                                        </div>
+                                    </div>
+                                    <label class="col-xs-2 col-sm-2 col-lg-1 control-label">Finish</label>
+                                    <div class="col-xs-10 col-sm-3 col-lg-3 inputGroupContainer">
+                                        <div class="input-group input-append dates">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                            <input class="form-control finish"  name="finish" type="text" data-mask="99/99/9999" data-mask-placeholder= "_"  />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>
+                                    KPI Associated
+                                </legend>
+                                <div class="form-group">
+                                    <label class="col-xs-2 col-lg-3 control-label">KPI</label>
+                                    <div class="col-xs-6 col-lg-4 selectContainer">
+                                        <select class="form-control kpi" name="kpi">
+                                            <option value="">[Seleccione]</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2 col-lg-2 inputGroupContainer">
+                                        <input type="text"  value="" class="form-control" name="metricValue" placeholder="0.0" />
+                                    </div>
+                                    <div class="col-xs-2 col-lg-3"><button class="btn btn-primary btn-circle btn-add" type="button"> <i class="fa fa-plus fa-lg"></i></button></div>
+                                </div>
+                                <div class="kpiList"></div>
+
+                                <footer>
+                                    <button type="submit" class="btn btn-success pull-right">
+                                        Save <i class="fa fa-send"></i>
+                                    </button>
+                                </footer>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="../../js/business-logic/target/target.js"></script>

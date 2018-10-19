@@ -1,0 +1,13 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.MetricMapper">
+    <resultMap id="MetricMap" type="Metric">
+    <id property="idMetric" column="id_metric" />
+        <result property="name" column="name" />
+        <result property="description" column="description" />
+        <result property="code" column="code" />
+        <result property="formula" column="formula" />
+        <result property="recordStatus" column="record_status" />
+    </resultMap>
+    <select id="read" resultMap="MetricMap">select * from metric where record_status=1;</select>
+    <select id="getById"  parameterType="Integer" resultMap="MetricMap">select * from metric where id_metric = #{idMetric} and record_status=1;</select>
+</mapper>

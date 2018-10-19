@@ -1,0 +1,15 @@
+<!DOCTYPE mapper    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alphateam.mapper.MetricDetailMapper">
+    <resultMap id="MetricDetailMap" type="MetricDetail">
+        <id property="id" column="id_metric_detail" />
+        <result property="recordStatus" column="record_status" />
+        <association property="idDigitalChannel" javaType="DigitalChannel">
+            <result column="id_digital_channel" property="idDigitalChannel"></result>
+        </association>
+        <association property="idMetric" javaType="Metric">
+            <result column="id_metric" property="idMetric"></result>
+        </association>
+    </resultMap>
+    <select id="read" resultMap="MetricDetailMap">select * from metric_detail where record_status=1';</select>
+    <select id="getById"  parameterType="Integer" resultMap="MetricDetailMap">select * from metric_detail where id_metric_detail = #{id} and record_status=1;</select>
+</mapper>

@@ -1,0 +1,85 @@
+<form class="form-horizontal formUserRegister">
+        <div class="form-group">
+            <label class="col-md-3 control-label">Full Name</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="fullName" value="">
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="lastName" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Username</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="username" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">E-Mail Address</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="email" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Password</label>
+            <div class="col-md-6">
+                <input type="password" class="form-control" name="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Confirm Password</label>
+            <div class="col-md-6">
+                <input type="password" class="form-control" name="confirmPassword">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Gender</label>
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input type="radio" class="radio_gender_1" value="1" name="gender">Male</label>
+                </div>
+                <div class="radio">
+                    <label>	<input type="radio" class="radio_gender_2" value="2" name="gender">Female</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Document Type</label>
+            <div class="col-md-3 selectContainer">
+                <select name="documentType" style="width: 100%" class="form-control documentType">
+                    <option value="1">DNI</option>
+                    <option value="2">Pasaporte de Extranjería</option>
+                </select>
+            </div>
+            <label class="col-md-2 control-label">Document Number</label>
+            <div class="col-md-3">
+                <input class="form-control" name="documentNumber" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Cellphone</label>
+            <div class="col-md-6">
+                <input class="form-control" name="cellphone" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Birthdate</label>
+            <div class="col-md-6">
+                <div class="input-group input-append dates">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                    <input class="form-control birthDate"  name="birthdate" type="text" data-mask="99/99/9999" data-mask-placeholder= "_"  />
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <div class="row">
+                <div class="col-md-12 action-buttons">
+                    <button class="btn btn-primary btn-submit" type="submit">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>

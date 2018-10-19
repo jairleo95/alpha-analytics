@@ -1,0 +1,41 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+.btn-light.active, .btn-light:active, .btn-light:hover, .open>.btn-light.dropdown-toggle {
+    color: #fff;
+    background-color: #20895e;
+    border-color: #196c4b;
+}
+
+.btn-light {
+    color: #fff;
+    background-color: #2ab27b;
+    border-color: #259d6d;
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+    right: -20px;
+}
+.has-feedback .form-control {
+    padding-right: 0px;
+}
+
+.selected{
+    /*background-color: #36aecccc;*/
+}
