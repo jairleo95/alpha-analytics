@@ -426,7 +426,7 @@ function submitForm(arg) {
         if (typeof opc === 'undefined') opc ='';
         if (typeof data === 'undefined') data = jsonSerialize(form);
         if (typeof type === 'undefined') type ='POST';
-        if (typeof id !== 'undefined') url =url+'/'+encodeURIComponent(id);
+        //if (typeof id !== 'undefined') url = url+'/'+ encodeURIComponent(id);
         console.log("dataform :" + data);
         console.log(opc);
         console.log("aditionalData :" + dataAditional);
@@ -434,11 +434,20 @@ function submitForm(arg) {
             $.ajax({
                 type: type,
                 url: url,
-                //data: ObjForm.serialize() + dataAditional + "&opc=" + opc,
                 data: JSON.stringify(data),
                 contentType: "application/json",
                 dataType: 'json',
                 success: function (objJson) {
+                    if (objJson.message !== ''){
+                        $.smallBox({
+                            title: "Registrado!",
+                            content: objJson.message,
+                            color: "#659265",
+                            iconSmall: "fa fa-check fa-2x fadeInRight animated",
+                            timeout: 6000
+                        });
+                    } else {
+                        /*default message*/
                         $.smallBox({
                             title: "Registrado!",
                             content: "<i class='fa fa-clock-o'></i> <i>Se ha almacenado correctamente...</i>",
@@ -446,6 +455,8 @@ function submitForm(arg) {
                             iconSmall: "fa fa-check fa-2x fadeInRight animated",
                             timeout: 6000
                         });
+                    }
+
                         callback(objJson);
                 }
             });
@@ -496,6 +507,17 @@ function calcularEdad(fechaNacimiento) {
         return 0;
     }
 }
+
+function showMessage(title,msg) {
+    $.smallBox({
+        title: title,
+        //content: "<i class='fa fa-error'></i> <i>"+msg+"...</i>",
+        content: msg,
+        color: "#456b7b",
+        iconSmall: "fa fa-danger fa-2x fadeInRight animated",
+        timeout: 6000
+    });
+}
 function showError() {
     $.smallBox({
         title: "Error",
@@ -540,7 +562,7 @@ function get(arg){
     var type = arg.type;
     var id = arg.id;
     if (typeof name ==='undefined') name ='name';
-    if (typeof id !== 'undefined') url =url+'/'+encodeURIComponent(id);
+    //if (typeof id !== 'undefined') url = url+ '/' + encodeURIComponent(id);
     if (typeof type ==='undefined') type ='GET';
     $.ajax({
         url:url,

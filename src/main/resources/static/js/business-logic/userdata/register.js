@@ -1,19 +1,24 @@
 /**
  * Created by santjair on 3/25/2018.
  */
+
+/*form variables*/
 var form;
-var urlCrudForm = "users";
+var endpoint = 'users';
+var urlCrud = '';
 var userRecords = $('.users-datatable');
 var type ='POST';
 var id = '';
 var updateMode = false;
 
+/*modal variables*/
 var modalObject = $('.modal-users');
 var modalBody = $(".areaModal");
 
-function initForm() {
-    form = $('.formUserRegister');
-    console.log('enter to initForm');
+function initFormUser() {
+    form = $('.form-user-register');
+    urlCrud = endpoint + '/' + encodeURIComponent(id)+ '/';
+    console.log('enter to initFormUser');
     $('.birthDate').datepicker({
         locale: 'es',
         format: 'D/MM/YYYY',
@@ -232,8 +237,8 @@ function initForm() {
 function save(){
     var data = jsonSerialize(form);
     data.birthdate = new Date(data.birthdate).toISOString();
-    submitForm({form: form,url: urlCrudForm, data:data, id:id, type:type, success:function () {
-        resetForm();
+    submitForm({form: form,url: urlCrud, data:data, id:id, type:type, success:function () {
+        resetFormUser();
         reloadRegisters();
     }});
 }
@@ -245,7 +250,7 @@ function initTable() {
     };
     userRecords.DataTable({
         "ajax": {
-            "url": urlCrudForm, "type": "GET",'dataSrc': ''
+            "url": endpoint+'/', "type": "GET",'dataSrc': ''
         },
         "columns": [
             {
@@ -301,8 +306,8 @@ function initTable() {
         "drawCallback": function (oSettings) {
             responsiveHelper_dt_basic.respond();
             $('.btn-update').click(function () {
-                var id = $(this).data('id');
-                showUserByID(id);
+                id = $(this).data('id');
+                showUser(id);
             });
             $('.btn-remove').click(function () {
                 id = $(this).data('id');
@@ -312,33 +317,109 @@ function initTable() {
             });
             $('.users-datatable tbody tr td').dblclick(function () {
                 var id = $(this).parent().find('.btn-update').data('id');
-                showUserByID(id)
+                showUser(id)
+            });
+            $('.btn-password').click(function () {
+                id = $(this).data('id');
+                initModal('Change password');
+                modalBody.load('change-pwd', function () {
+                    initFormPWDChange();
+                });
             });
         }
     });
+}
+function initFormPWDChange(){
+    form = $('.form-change-password');
+    type = 'PUT';
+    urlCrud = endpoint + '/'+ encodeURIComponent(id)+ '/pwd/' ;
+    form.bootstrapValidator({
+     message:'This values is invalid',
+        framework:'bootstrap',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },fields:{
+            userPassword: {
+                validators: {
+                    notEmpty: {
+                        message: 'La contraseña no puede estar vacio'
+                    },
+                    stringLength: {
+                        min: 8,
+                        max: 20,
+                        message: 'La contraseña de usuario debe tener más de 8 y menos de 20 caracteres'
+                    },
+                    regexp: {
+                        regexp: strongPasswordRegex,
+                        message: 'La contraseña debe tener letras (A-Z, a-z), por lo menos numeros (0-9) y por lo menos caracteres especiales (@&%”.).'
+                    }
+                }
+            },
+            confirmPassword: {
+                validators: {
+                    notEmpty: {
+                        message: 'La contraseña no puede estar vacio'
+                    },
+                    identical: {
+                        field: 'password',
+                        message: 'La contraseña y su confirmación no son los mismos'
+                    }
+                }
+            }
+        }
+    }).on('success.form.bv', function (e) {
+        /* do submitting with ajax*/
+        e.preventDefault();
+        changePWD();
+    });
+};
+
+function changePWD(){
+    console.log('*** Enter to changePWD function');
+    var data = jsonSerialize(form);
+    console.log('submitForm[form:'+form+', url:'+urlCrud+', data:'+data+', type:'+type)+']';
+    submitForm({form: form,url: urlCrud, data:data, id:id, type:type,success: function () {
+        //resetFormUser();
+        resetFormPWD();
+        //alert('modificado!')
+    }});
+}
+function resetFormPWD(){
+    updateMode = false;
+    type = 'POST';
+    id ='';
+    form.bootstrapValidator('resetForm',true);
+    modalObject.modal('toggle');
 }
 function initModal(title){
     modalObject.modal({keyboard: false, backdrop: 'static'});
     modalObject.modal('show');
     $('.modal-title').text(title);
+    $('.close-form').click(function () {
+        console.log('closing modal...');
+        urlCrud = '';
+    });
 }
-function showUserByID(id){
+function showUser(){
     initModal('Edit User');
     modalBody.load('form-user', function () {
-        initForm();
+        initFormUser();
         console.log('user:'+id);
-        get({url:urlCrudForm, id:id, success:function(x){
-            prepareUpdate(x);
+        get({url:urlCrud, id:id, success:function(x){
+            prepareForUpdate(x);
         }});
     });
 }
 function reloadRegisters() {
     $.fn.dataTable.Api(userRecords).ajax.reload();
 }
-function resetForm(){
+function resetFormUser(){
     updateMode = false;
     type = 'POST';
     id ='';
+    urlCrud = '';
     var password = $('[name="password"]');
     var confirmPassword= $('[name="confirmPassword"]');
         password.parent().parent().show();
@@ -348,8 +429,9 @@ function resetForm(){
         form.bootstrapValidator('addField', confirmPassword);
         form.bootstrapValidator('resetForm',true);
 }
-function prepareUpdate(x){
-    resetForm();
+function prepareForUpdate(x){
+    //resetFormUser();
+    /*setting data to form*/
     var actionButtons =$('.action-buttons');
     var fullName = $('[name="fullName"]');
     var lastName = $('[name="lastName"]');
@@ -381,13 +463,19 @@ function prepareUpdate(x){
     actionButtons.find('.btn-submit').text('Update');
     $('.radio_gender_'+x.gender).prop('checked',true);
 
+    /*removing pwd field validator*/
     form.bootstrapValidator('removeField', password);
     form.bootstrapValidator('removeField', confirmPassword);
+
+    /*settings variables*/
     updateMode = true;
     type = 'PUT';
-    id = x.id;
+    //id = x.id;
+    urlCrud = endpoint + '/'+id+'/';
+
+    /*eventse*/
     $('.btn-cancel').click(function () {
-        resetForm();
+        resetFormUser();
     });
 }
 function initEvents() {
@@ -407,7 +495,7 @@ function initEvents() {
     $('.btn-create').click(function () {
         initModal(' Create User');
         modalBody.load('form-user', function () {
-            initForm();
+            initFormUser();
         });
     });
     $('.dialog_simple').dialog({
@@ -422,7 +510,7 @@ function initEvents() {
             click : function() {
                 var obj =$(this);
                 console.log('user:'+id);
-                removeItem({url:urlCrudForm,id:id, type:'DELETE',success: function (x) {
+                removeItem({url:urlCrud,id:id, type:'DELETE',success: function (x) {
                     obj.dialog("close");
                     console.log(x);
                     reloadRegisters();

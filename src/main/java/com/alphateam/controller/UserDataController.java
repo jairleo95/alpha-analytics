@@ -10,6 +10,7 @@ import com.alphateam.services.UserDataService;
 
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.alphateam.util.Security;
 import org.apache.log4j.LogManager;
@@ -109,6 +110,36 @@ public class UserDataController {
         } else {
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
+    }
+    @RequestMapping(value = "/{id}/pwd/", method = {RequestMethod.PUT},
+            produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE}
+            )
+    @ResponseBody
+    public ResponseEntity<?> changePWD(@PathVariable("id") String id, @RequestBody UserData us, HttpServletRequest httpServletRequest) {
+        /*ISO 8601 for date*/
+        //u.setIdUser(id);
+        HttpSession session = httpServletRequest.getSession(true);
+        UserData userSession = (UserData) session.getAttribute("userdata");
+        log.info("Request ["+us.getUserPassword()+"]");
+        log.info("Data parser[id:"+id+", pwd:"+us.getUserPassword()+"]");
+        if (false){
+        //if (userData == null){
+                return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
+        }else{
+            if (true){
+            //if (userData.getUsername() != null){
+            /*update pwd*/
+                if (us.getUserPassword()!=null){
+                    String response = service.changePWD(id,us.getUserPassword());
+                    return new ResponseEntity<>(response,HttpStatus.OK);
+                }else {
+                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            }
+        }
+
     }
     @RequestMapping(value = "/{id}", method = {RequestMethod.DELETE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody

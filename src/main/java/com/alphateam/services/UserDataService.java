@@ -174,5 +174,20 @@ public class UserDataService {
         }
         return gson.toJson(data);
     }
-
+    public String changePWD(String id, String pwd){
+        init();
+        pwd = Security.encrypt(pwd);
+        log.info("UserDataService.changePWD [id:"+id+", pwd:"+pwd+"]");
+        try {
+            Integer id_decrypted = Integer.parseInt(Security.decrypt(id));
+            mapper.updatePWD(id_decrypted,pwd);
+            data.put(R.global.MESSAGE, "Se ha modificado la contrasena correctamente.");
+            data.put(R.global.STATUS, true);
+        } catch (Exception e){
+            log.error("Error :" + e.getMessage());
+            data.put(R.global.STATUS, false);
+            data.put(R.global.MESSAGE, "Hubo un problema en el Sistema, intentelo nuevamente.");
+        }
+        return gson.toJson(data);
+    }
 }

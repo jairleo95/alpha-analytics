@@ -271,7 +271,7 @@ var opc = "save";
 
 						saveFormAjax($('.formSubmit'),
 								"../usuario/executeCrudUsuario.htm",
-								dataAditional, $("#dt_basic"), resetForm);
+								dataAditional, $("#dt_basic"), resetFormUser);
 					},
 					highlight : function(element, errorClass) {
 						setHighlight(element)

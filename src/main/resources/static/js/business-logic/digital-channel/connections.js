@@ -142,7 +142,7 @@ function checkLoginState() {
 function testAPI() {
     FB.api('/me', function (response) {
         console.log('Successful login for: ' + response.name);
-        $("#status").append('Thanks for logging in, ' + response.name + '!');
+        showMessage('Message','Thanks for logging in, ' + response.name + '!');
     });
 }
 function resetDOM(){
@@ -156,7 +156,7 @@ function resetDOM(){
     ytCol.removeClass(centerPos).addClass(originalPos);
     gaCol.removeClass(centerPos).addClass(originalPos);
     settingsCol.hide();
-    $('.form-access-settings').bootstrapValidator("resetForm",true);
+    $('.form-access-settings').bootstrapValidator("resetFormUser",true);
 }
 function initEvents(){
     fbButton.click(function () {

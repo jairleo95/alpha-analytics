@@ -19,10 +19,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserDataMapper {
 
-    public void create(UserData userData);
-    public List<UserData> read();
-    public void delete(@Param("id_user") Integer idUserdata);
-    public Boolean update(UserData userData);
-    public UserData getByName(@Param("username") String username);
-    public UserData getById(Integer idUser);
+    void create(UserData userData);
+    List<UserData> read();
+    void delete(@Param("id_user") Integer idUserdata);
+    Boolean update(UserData userData);
+    UserData getByName(@Param("username") String username);
+    UserData getById(Integer idUser);
+    void updatePWD(@Param("id_user") Integer idUser, @Param("user_password") String pwd);
 }

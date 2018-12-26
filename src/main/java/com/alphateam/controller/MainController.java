@@ -49,6 +49,10 @@ public class MainController {
 	public ModelAndView registerUser() {
 		return new ModelAndView("views/userdata/register.html");
 	}
+	@RequestMapping(value = "change-pwd")
+	public ModelAndView changePwd() {
+		return new ModelAndView("views/userdata/password.html");
+	}
 
 	@RequestMapping(value = "loginBody")
 	public ModelAndView initLoginBody() {

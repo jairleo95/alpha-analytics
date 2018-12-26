@@ -20,4 +20,5 @@
     <select id="delete" resultType="Integer" parameterType="UserData">call spd_user_data(#{id_user});</select>
     <select id="getById" resultMap="UserDataMap" parameterType="Integer">select * from user_data where id_user = #{idUser}</select>
     <select id="getByName" resultMap="UserDataMap" parameterType="String">select * from user_data where username = #{username}</select>
+    <select id="updatePWD" resultType="Integer" parameterType="UserData">call spd_user_password(#{id_user},#{user_password});</select>
 </mapper>
