@@ -8,6 +8,7 @@ package com.alphateam.mapper;
 import com.alphateam.bean.UserData;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,5 +26,6 @@ public interface UserDataMapper {
     Boolean update(UserData userData);
     UserData getByName(@Param("username") String username);
     UserData getById(Integer idUser);
+    Map<String,String> getDetails(Integer id);
     void updatePWD(@Param("id_user") Integer idUser, @Param("user_password") String pwd);
 }

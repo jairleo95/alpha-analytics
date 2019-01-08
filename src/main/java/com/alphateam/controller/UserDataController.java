@@ -12,7 +12,6 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.alphateam.util.Security;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.hateoas.Link;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -49,7 +47,7 @@ public class UserDataController {
     @RequestMapping(value = "session", method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public String validateSession(HttpServletRequest request) {
-        return service.validateUserSession(request);
+        return service.validateSession(request);
     }
 
     @RequestMapping(value = "logout", method = {RequestMethod.GET})
@@ -62,18 +60,26 @@ public class UserDataController {
     public Collection<UserData> read() {
         return this.service.getAll();
     }
+
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public UserData read(@PathVariable String id) {
+    public ResponseEntity<?> read(@PathVariable String id, HttpServletRequest rq) {
         log.info("Enter to get user service");
-        log.info("idUser:"+id);
-        return service.getUserDataById(id).encrypt();
+        String type = (rq.getParameter("type") == null ? "":rq.getParameter("type"));
+        log.info("request.type:"+type);
+        log.info("path.id:"+id);
+
+        if (type.equals("clear")){
+            return new ResponseEntity<>(service.getUserClearMode(id), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(service.getUser(id).encrypt(), HttpStatus.OK);
+        }
     }
     @RequestMapping( method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?> add(@RequestBody UserData input) {
       log.debug("Request received:"+input.toString());
-        if (service.ifExistUser(input)) {
+        if (service.validateUsername(input)) {
             log.info("A User with name " + input.getUsername() + " already exist");
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
@@ -94,7 +100,7 @@ public class UserDataController {
         log.info("username:"+ username+",type: "+type);
         UserData u = new UserData();
         u.setUsername(username);
-        boolean valid = type?!service.ifExistUser(u):true;
+        boolean valid = type?!service.validateUsername(u):true;
         return new ResponseEntity<>("{ \"valid\": "+valid+" }", HttpStatus.OK);
     }
 
@@ -104,7 +110,7 @@ public class UserDataController {
         /*ISO 8601 for date*/
         u.setIdUser(id);
         log.debug("Request received:"+u.toString());
-        if (service.getUserDataById(id) != null){
+        if (service.getUser(id) != null){
             service.update(u);
             return new ResponseEntity<>(u,HttpStatus.OK);
         } else {
@@ -145,7 +151,7 @@ public class UserDataController {
     @ResponseBody
     public ResponseEntity<?> delete(@PathVariable String id) {
         log.info("idUser received:"+id);
-        UserData u = service.getUserDataById(id);
+        UserData u = service.getUser(id);
         if (u==null){
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }else if (!u.getRecordStatus()){

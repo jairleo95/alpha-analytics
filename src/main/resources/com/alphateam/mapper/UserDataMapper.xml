@@ -19,6 +19,7 @@
     <select id="update" resultType="Integer" parameterType="UserData">call spu_user_data(#{username},#{userPassword},#{email},#{fullName},#{lastName},#{gender},#{documentType},#{documentNumber},#{cellphone},#{birthdate},true,#{idUser});</select>
     <select id="delete" resultType="Integer" parameterType="UserData">call spd_user_data(#{id_user});</select>
     <select id="getById" resultMap="UserDataMap" parameterType="Integer">select * from user_data where id_user = #{idUser}</select>
+    <select id="getDetails" resultType="java.util.Map" parameterType="Integer">select id_user as idUser,username,user_password as userPassword, email, full_name as fullName, last_name as lastName, case when gender = 1 then 'Male' when gender = 2 then 'Female' end as gender, case when document_type = 1 then 'DNI' when document_type = 2 then 'Pasaporte de extranjería' end  as documentType, documment_number as documentNumber, cellphone, birthdate from user_data where id_user = #{idUser}</select>
     <select id="getByName" resultMap="UserDataMap" parameterType="String">select * from user_data where username = #{username}</select>
     <select id="updatePWD" resultType="Integer" parameterType="UserData">call spd_user_password(#{id_user},#{user_password});</select>
 </mapper>

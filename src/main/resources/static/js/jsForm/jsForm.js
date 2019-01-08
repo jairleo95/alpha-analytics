@@ -534,7 +534,7 @@ function removeItem(arg){
      var type = arg.type;
      var id = arg.id;
         if (typeof type ==='undefined') type ='GET';
-        if (typeof id !=='undefined') url =url+'/'+encodeURIComponent(id);
+        //if (typeof id !=='undefined') url =url+'/'+encodeURIComponent(id);
         $.ajax({
             url:url,
             type: type,

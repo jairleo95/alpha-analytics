@@ -75,6 +75,9 @@ public class MainController {
 	@RequestMapping(value = "form-user") public ModelAndView formUser() {
 		return  new ModelAndView("/views/userdata/form-user.html");
 	}
+	@RequestMapping(value = "user-detail") public ModelAndView detailsUser() {
+		return  new ModelAndView("/views/userdata/details.html");
+	}
 
 	@RequestMapping(value = "initChannelAccess", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView initChannelAccessLayout(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {

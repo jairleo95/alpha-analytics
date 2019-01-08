@@ -1,4 +1,5 @@
 /**
+/**
  * Created by santjair on 3/25/2018.
  */
 
@@ -235,11 +236,21 @@ function initFormUser() {
     });
 }
 function save(){
+    console.log('***Enter to save function***');
     var data = jsonSerialize(form);
     data.birthdate = new Date(data.birthdate).toISOString();
+    console.log('[save] data:');
+    console.log(data);
+    console.log('[save] updateMode flag:'+updateMode);
+    console.log('[save] id:'+id);
     submitForm({form: form,url: urlCrud, data:data, id:id, type:type, success:function () {
-        resetFormUser();
-        reloadRegisters();
+        if (updateMode){
+            showDetails()
+            reloadRegisters()
+        }else {
+            resetFormUser();
+            reloadRegisters();
+        }
     }});
 }
 function initTable() {
@@ -307,7 +318,7 @@ function initTable() {
             responsiveHelper_dt_basic.respond();
             $('.btn-update').click(function () {
                 id = $(this).data('id');
-                showUser(id);
+                showEditForm(id);
             });
             $('.btn-remove').click(function () {
                 id = $(this).data('id');
@@ -316,8 +327,8 @@ function initTable() {
                 return false;
             });
             $('.users-datatable tbody tr td').dblclick(function () {
-                var id = $(this).parent().find('.btn-update').data('id');
-                showUser(id)
+                id = $(this).parent().find('.btn-update').data('id');
+                showDetails();
             });
             $('.btn-password').click(function () {
                 id = $(this).data('id');
@@ -402,7 +413,42 @@ function initModal(title){
         urlCrud = '';
     });
 }
-function showUser(){
+function showDetails(){
+    initModal('User Information');
+    modalBody.load('user-detail', function () {
+        urlCrud = endpoint + '/' + encodeURIComponent(id)+'?type=clear';
+        console.log('user:'+id);
+        console.log('urlCrud:'+urlCrud);
+        get({url:urlCrud, id:id, success:function(x){
+            var fullName = $('.lb-fullname');
+            var lastName = $('.lb-lastname');
+            var username = $('.lb-username');
+            var email = $('.lb-email');
+            var password = $('.lb-pwd');
+            var gender = $('.lb-gender');
+            var documentType = $('.lb-document-type');
+            var documentNumber = $('.lb-document-number');
+            var cellphone = $('.lb-cellphone');
+            var birthdate = $('.lb-birthdate');
+            fullName.text(x.fullName);
+            lastName.text(x.lastName);
+            username.text(x.username);
+            email.text(x.email);
+            password.text(x.userPassword);
+            gender.text(x.gender);
+            documentType.text(x.documentType);
+            documentNumber.text(x.documentNumber);
+            cellphone.text(x.cellphone);
+            birthdate.text(x.birthdate);
+            
+            /*events*/
+            $('.btn-edit-user').click(function () {
+               showEditForm(); 
+            });
+        }});
+    });
+}
+function showEditForm(){
     initModal('Edit User');
     modalBody.load('form-user', function () {
         initFormUser();
@@ -510,11 +556,12 @@ function initEvents() {
             click : function() {
                 var obj =$(this);
                 console.log('user:'+id);
+                urlCrud = endpoint + '/' + encodeURIComponent(id)+ '/';
                 removeItem({url:urlCrud,id:id, type:'DELETE',success: function (x) {
                     obj.dialog("close");
                     console.log(x);
                     reloadRegisters();
-
+                    resetFormUser();
                 }})
             }
         }, {

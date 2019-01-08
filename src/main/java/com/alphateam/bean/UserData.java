@@ -146,7 +146,7 @@ public class UserData{
         this.idUser = Security.encrypt(idUser);
         return this;
     }
-public UserData decrypt(){
+    public UserData decrypt(){
         this.idUser = Security.decrypt(idUser);
         return this;
     }

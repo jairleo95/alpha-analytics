@@ -57,14 +57,14 @@ public class UserDataService {
         userData.setUserPassword(passwordEncoder.encode(userData.getUserPassword()));
         mapper.create(userData);
         log.info("result:"+ userData.toString());
-        return  getUserDataById(userData.getIdUser());
+        return  getUser(userData.getIdUser());
     }
     public String delete(String id) {
         init();
         int x = Integer.parseInt(Security.decrypt(id));
         try {
             mapper.delete(x);
-            if (!getUserDataById(id).getRecordStatus()){
+            if (!getUser(id).getRecordStatus()){
                 data.put(R.global.STATUS, true);
                 data.put(R.global.MESSAGE, "El usuario fue eliminado correctamente");
             }else{
@@ -92,11 +92,21 @@ public class UserDataService {
         }
         return gson.toJson(data);
     }
-    public UserData getUserDataById(String id) {
+    public UserData getUser(String id) {
+        int x = parseID(id);
+        return (x==0) ? null : mapper.getById(x);
+    }
+    public Map<String, String> getUserClearMode(String id) {
+        int x = parseID(id);
+        return (x==0) ? null: mapper.getDetails(x);
+    }
+
+    int parseID(String id){
         id = Security.decrypt(id);
-        if (id.isEmpty()) return null;
-        int x = Integer.parseInt(id);
-        return mapper.getById(x);
+
+        if (id.isEmpty()) return 0;
+
+        return Integer.parseInt(id);
     }
     public Collection<UserData> getAll() {
             List<UserData> list = mapper.read();
@@ -137,15 +147,15 @@ public class UserDataService {
         }
         return gson.toJson(data);
     }
-    public boolean ifExistUser(UserData user) {
+    public boolean validateUsername(UserData user) {
         log.info("mapper username:"+user.getUsername());
         return mapper.getByName(user.getUsername())!=null;
     }
-    public String validateUserSession(HttpServletRequest request) {
+    public String validateSession(HttpServletRequest request) {
         init();
         try {
-            HttpSession sesion = request.getSession(true);
-            userData = (UserData) sesion.getAttribute("userdata");
+            HttpSession session = request.getSession(true);
+            userData = (UserData) session.getAttribute("userdata");
             if (userData.getUsername() != null) {
                 data.put("username", userData.getUsername());
                 data.put(R.global.STATUS, true);
