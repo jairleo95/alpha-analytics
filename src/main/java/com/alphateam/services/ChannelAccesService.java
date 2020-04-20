@@ -15,10 +15,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
@@ -77,11 +78,7 @@ public class ChannelAccesService {
     }
 
     public Collection<ChannelAccess> getAll(){
-        List<ChannelAccess> list = mapper.read();
-        for (int i = 0; i < list.size(); i++) {
-            list.set(i,  list.get(i).encrypt());
-        }
-        return list;
+      return mapper.read().stream().map(channelAccess -> channelAccess.encrypt()).collect(Collectors.toList());
     }
 
     public String manageAccess(String opc,ChannelAccess data){

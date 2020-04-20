@@ -424,7 +424,7 @@ function showDetails(){
             var lastName = $('.lb-lastname');
             var username = $('.lb-username');
             var email = $('.lb-email');
-            var password = $('.lb-pwd');
+            //var password = $('.lb-pwd');
             var gender = $('.lb-gender');
             var documentType = $('.lb-document-type');
             var documentNumber = $('.lb-document-number');
@@ -434,7 +434,7 @@ function showDetails(){
             lastName.text(x.lastName);
             username.text(x.username);
             email.text(x.email);
-            password.text(x.userPassword);
+            //password.text(x.userPassword);
             gender.text(x.gender);
             documentType.text(x.documentType);
             documentNumber.text(x.documentNumber);
@@ -519,9 +519,9 @@ function prepareForUpdate(x){
     //id = x.id;
     urlCrud = endpoint + '/'+id+'/';
 
-    /*eventse*/
+    /*events*/
     $('.btn-cancel').click(function () {
-        resetFormUser();
+        showDetails();
     });
 }
 function initEvents() {

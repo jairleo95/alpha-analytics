@@ -10,10 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alphateam.bean.ChannelAccess;
 import com.alphateam.bean.UserData;
+import com.alphateam.constants.R;
 import com.alphateam.services.ChannelAccesService;
 import com.alphateam.services.UserDataService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import com.alphateam.util.Validation;
+import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,13 +27,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author JAIR
  */
 @RestController
-@RequestMapping("/channelAccess")
+@RequestMapping("/channels/access")
 public class ChannelAccessController {
 
     private final ChannelAccesService service;
@@ -53,9 +58,27 @@ public class ChannelAccessController {
     @RequestMapping( method = {RequestMethod.POST}, produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?> add(@RequestBody ChannelAccess input){
+
         log.info("Request received:"+input.toString());
-        ChannelAccess c = service.create(input).encrypt();
-        return new ResponseEntity<>(c, HttpStatus.CREATED);
+        /*todo: validate channelAccess.id not empty*/
+        Map<String, Object> data = new HashMap<>();
+        HttpStatus status = HttpStatus.CREATED;
+        Object rsp;
+
+        //validate request
+        if (!Validation.isInteger(input.getAppId()) ){
+            status = HttpStatus.BAD_REQUEST;
+            data.put(R.global.MESSAGE, "Parameter appId must be integer");
+            rsp = new Gson().toJson(data);
+        } else if(input.getDigitalChannel().getIdDigitalChannel().isEmpty() || input.getDigitalChannel().getIdDigitalChannel() == null){
+            status = HttpStatus.BAD_REQUEST;
+            data.put(R.global.MESSAGE, "Parameter digitalChannel.id must be integer");
+            rsp = new Gson().toJson(data);
+        }else {
+            rsp = service.create(input).encrypt();
+        }
+
+      return new ResponseEntity<>(rsp, status);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT}, produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})

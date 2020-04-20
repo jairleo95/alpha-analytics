@@ -2,8 +2,8 @@ package com.alphateam.controller;
 
 import com.alphateam.bean.Token;
 import com.alphateam.services.TokenService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,7 +40,7 @@ public class TokenController {
     @ResponseBody
     public ResponseEntity<?> add(@RequestBody Token input){
         log.debug("Request received:"+input.toString());
-        if (service.findTokne(input.getStringToken())!=null){
+        if (service.findToken(input.getStringToken())!=null){
             log.info("A Tokern with string "+ input.getStringToken()+" already exist");
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }

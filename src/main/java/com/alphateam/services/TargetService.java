@@ -6,14 +6,15 @@ import com.alphateam.mapper.TargetMapper;
 import com.alphateam.util.Security;
 import com.google.gson.Gson;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by santjair on 3/5/2018.
@@ -87,11 +88,7 @@ public class TargetService {
         return mapper.getByName(name);
     }
     public Collection<Target> getAll(){
-        List<Target> list = mapper.read();
-        for (int i = 0; i < list.size(); i++) {
-            list.set(i,list.get(i).encrypt());
-        }
-        return list;
+        return mapper.read().stream().map(x ->x.encrypt() ).collect(Collectors.toList());
     }
     public String manageTarget(){return null;}
     public String getTargetReached(){return null;}

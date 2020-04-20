@@ -1,6 +1,13 @@
 /**
  * Created by santjair on 3/26/2018.
  */
+/*form variables*/
+var form;
+var endpoint = 'channels/access';
+var urlCrud = '';
+var type ='POST';
+var id = '';
+var updateMode = false;
 
 /*buttons*/
 var fbButton = $('.btn-add-fb');
@@ -26,8 +33,12 @@ const social = {
     GOOGLE_ANALYTICS: 'GA'
 }
 var socialType;
+
 function initForm() {
-    $('.form-access-settings').bootstrapValidator({
+    form =  $('.form-access-settings');
+    console.log('***Enter to initFormUser() function***');
+    urlCrud = endpoint + '/';
+       form.bootstrapValidator({
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
@@ -83,7 +94,32 @@ function initForm() {
             }
 
         }
+    }).on('success.form.bv', function (e) {
+        /* do submitting with ajax*/
+        e.preventDefault();
+        save();
     });
+}
+function save(){
+    console.log('***Enter to save() function***');
+    var data = jsonSerialize(form);
+    data["digitalChannel"] = {};
+    data["digitalChannel"]['id'] = id;
+    console.log('[save] data:');
+    console.log(data);
+    console.log('[save] updateMode flag:'+updateMode);
+    console.log('[save] id:'+id);
+
+    submitForm({form: form,url: urlCrud, data:data, id:id, type:type, success:function () {
+        if (updateMode){
+            //showDetails()
+            //reloadRegisters()
+        }else {
+            //resetFormUser();
+            //reloadRegisters();
+        }
+    }});
+
 }
 function initFBButton(status) {
     //if (status) {
@@ -156,10 +192,11 @@ function resetDOM(){
     ytCol.removeClass(centerPos).addClass(originalPos);
     gaCol.removeClass(centerPos).addClass(originalPos);
     settingsCol.hide();
-    $('.form-access-settings').bootstrapValidator("resetFormUser",true);
+    form.bootstrapValidator("resetForm",true);
 }
 function initEvents(){
     fbButton.click(function () {
+        //clean form
         socialType = social.FACEBOOK;
        ytCol.hide();
        gaCol.hide();
@@ -167,6 +204,9 @@ function initEvents(){
        fbButton.parent().hide();
        fbCol.removeClass(originalPos).addClass(centerPos);
        settingsCol.removeClass(originalPos).addClass(centerPos);
+       //id = 1;
+       id = 'M42s7VMt3rg=';
+
     });
     gaButton.click(function () {
         socialType = social.GOOGLE_ANALYTICS;
@@ -176,6 +216,7 @@ function initEvents(){
         settingsCol.show();
         gaCol.removeClass(originalPos).addClass(centerPos);
         settingsCol.removeClass(originalPos).addClass(centerPos);
+
     });
     ytButton.click(function () {
         socialType = social.YOUTUBE;
@@ -185,6 +226,8 @@ function initEvents(){
         ytButton.parent().hide();
         ytCol.removeClass(originalPos).addClass(centerPos);
         settingsCol.removeClass(originalPos).addClass(centerPos);
+        id = 'vau8W9ja0pI=';
+        //id = 2;
     });
     cancelBtn.click(function () {
         socialType = '';
@@ -238,12 +281,37 @@ function initFBAPI(){
 
     });
 }
+function getConnections(){
+    urlCrud = endpoint + '/';
+    //get for facebook
+    //id = 'M42s7VMt3rg=';
+    get({url:urlCrud,id:'M42s7VMt3rg=', success:function(x){
+        console.log('getConnections().get().success');
+        console.log(x);
+        console.log('Iterate connections...');
+        var html = '';
+        for (var cnn in x ){
+            console.log('item:'+x[cnn].address);
+                html  += '<div class="well well-light">'
+               // +'<button class="btn btn-default btn-circle btn-lg btn-add-fb" type="button"><i class="glyphicon glyphicon-plus"></i></button>'
+                +'<label> Address: '+x[cnn].address+'</label><br>'
+                +'<label> AppID: '+x[cnn].appId+'</label>'
+                //+'<label> Creation Date: '+x[cnn].appId+'</label>'
+                +'</div>';
+        }
+        $('.fb-column').append(html);
+    }})
+    //get for youtube
+
+    //get for google analytics
+}
 
 var pagefunction = function () {
     pageSetUp();
         initEvents();
         initForm();
         initFBAPI();
+        getConnections();
 };
 loadScript('../js/jsForm/jsForm.js', function () {
     loadScript('../js/plugin/bootstrapvalidator/bootstrapValidator.min.js', pagefunction);

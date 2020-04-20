@@ -8,14 +8,15 @@ import com.alphateam.mapper.MetricMapper;
 import com.alphateam.util.Security;
 import com.google.gson.Gson;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by santjair on 3/5/2018.
@@ -51,13 +52,8 @@ public class MetricService {
         return mapper.getById(x);
     }
     public Collection<Metric> getAll(){
-        List<Metric> list =mapper.read();
-        for (int i = 0; i < list.size(); i++) {
-            Metric m = list.get(i);
-            m.setIdMetric(Security.encrypt(m.getIdMetric()));
-            list.set(i,m);
-        }
-        return list;}
+        return mapper.read().stream().map(x ->x.encrypt() ).collect(Collectors.toList());
+    }
     public Metric getByName(String name){return mapper.getByName(name);}
     public String getScope(String data){
         return null;

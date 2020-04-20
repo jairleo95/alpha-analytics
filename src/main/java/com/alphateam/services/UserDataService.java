@@ -9,8 +9,8 @@ package com.alphateam.services;
 import com.alphateam.bean.UserData;
 import com.alphateam.util.Security;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import com.alphateam.mapper.UserDataMapper;
@@ -36,8 +37,8 @@ public class UserDataService {
 
     private final UserDataMapper mapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    //@Autowired
+    //private PasswordEncoder passwordEncoder;
 
     private Gson gson;
     private Map<String, Object> data;
@@ -54,7 +55,7 @@ public class UserDataService {
     }
 
     public UserData create(UserData userData) {
-        userData.setUserPassword(passwordEncoder.encode(userData.getUserPassword()));
+        //userData.setUserPassword(passwordEncoder.encode(userData.getUserPassword()));
         mapper.create(userData);
         log.info("result:"+ userData.toString());
         return  getUser(userData.getIdUser());
@@ -82,7 +83,7 @@ public class UserDataService {
         init();
         u.decrypt();
         try {
-            u.setUserPassword(passwordEncoder.encode(u.getUserPassword()));
+           // u.setUserPassword(passwordEncoder.encode(u.getUserPassword()));
             data.put(R.global.MESSAGE, "El usuario fue actualizado correctamente");
             data.put(R.global.STATUS, mapper.update(u));
         }catch (Exception e){
@@ -109,13 +110,7 @@ public class UserDataService {
         return Integer.parseInt(id);
     }
     public Collection<UserData> getAll() {
-            List<UserData> list = mapper.read();
-            for (int i = 0; i < list.size(); i++) {
-                UserData u = list.get(i);
-                u.setIdUser(Security.encrypt(u.getIdUser()));
-                list.set(i,u);
-            }
-        return list;
+        return mapper.read().stream().map(x ->x.encrypt() ).collect(Collectors.toList());
     }
     public String login(String username, String password, HttpServletRequest request) {
         init();
@@ -127,7 +122,8 @@ public class UserDataService {
                 data.put(R.global.MESSAGE, "User not found.");
             } else if (userData.getRecordStatus()){
                     log.info("username:" + userData.getUsername());
-                    Boolean VerificatePass = passwordEncoder.matches(password, userData.getUserPassword());
+                    Boolean VerificatePass = true;
+                  //  Boolean VerificatePass = passwordEncoder.matches(password, userData.getUserPassword());
                     if (!VerificatePass) {
                         data.put(R.global.MESSAGE, "Incorrect Password");
                     } else {

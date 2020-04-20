@@ -4,8 +4,8 @@ import com.alphateam.bean.MetricDetail;
 import com.alphateam.mapper.MetricDetailMapper;
 import com.google.gson.Gson;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

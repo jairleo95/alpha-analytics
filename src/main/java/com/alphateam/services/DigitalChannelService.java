@@ -5,14 +5,15 @@ import com.alphateam.mapper.DigitalChannelMapper;
 import com.alphateam.util.Security;
 import com.google.gson.Gson;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by santjair on 4/19/2018.
@@ -33,14 +34,7 @@ public class DigitalChannelService {
         return mapper.getById(x);
     }
     public Collection<DigitalChannel> getAll(){
-        List<DigitalChannel> list = mapper.read();
-        for (int i = 0; i < list.size(); i++) {
-            DigitalChannel d = list.get(i);
-            d.setIdDigitalChannel(Security.encrypt(d.getIdDigitalChannel()));
-            list.set(i,d);
-        }
-        log.info("list:"+list.toString());
-        return list;
+        return  mapper.read().stream().map(x ->x.encrypt() ).collect(Collectors.toList());
     }
     public DigitalChannel getByName(String name){
         return mapper.getByName(name).encrypt();

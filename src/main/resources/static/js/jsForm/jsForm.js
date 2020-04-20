@@ -68,7 +68,6 @@ function initFormPluginsEvents() {
         onClose: function (selectedDate) {
             $(".topicker").datepicker("option", "minDate", selectedDate);
         }
-
     });
 
     $(".topicker").datepicker({
@@ -457,8 +456,27 @@ function submitForm(arg) {
                         });
                     }
 
-                        callback(objJson);
+                    callback(objJson);
                 }
+            }).fail(function (jqXHR, textStatus) {
+                console.log('***Enter to ajax.fail function***');
+                console.log('[ajax.fail] jqXHR.message:');
+                console.log(jqXHR.responseJSON);
+
+                var msg ='Ocurrio un error al realizar esta operacion, intente de nuevo.' ;
+                if (typeof  jqXHR.responseJSON.message !== 'undefined'){
+                    msg = jqXHR.responseJSON.message;
+                }
+
+                /*error message*/
+                $.smallBox({
+                    title: "Upps!",
+                    content: msg,
+                    /* content: "<i class='fa fa-clock-o'></i> <i>Se ha almacenado correctamente...</i>",*/
+                    color: "#659265",
+                    iconSmall: "fa fa-exclamation-circle fa-2x fadeInRight animated",
+                    timeout: 6000
+                });
             });
        /* } else {
             $.bigBox({

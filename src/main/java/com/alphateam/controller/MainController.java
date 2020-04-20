@@ -32,17 +32,13 @@ public class MainController {
 		ModelAndView modelAndView = new ModelAndView("initPage", modelMap);
 		return modelAndView;
 	}
-    @RequestMapping(value = "/")
+	@RequestMapping(value = "/")
 	public ModelAndView index() {
                 return new ModelAndView("/views/security/pageBase.html");
 	}
     @RequestMapping(value = "connections")
 	public ModelAndView connectios() {
                 return new ModelAndView("views/channelAccess/connections.html");
-	}
-	@RequestMapping(value = "main")
-	public ModelAndView accesToLogin() {
-		return new ModelAndView("/views/main/main.html");
 	}
 
 	@RequestMapping(value = "register")
