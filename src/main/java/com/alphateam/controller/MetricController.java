@@ -14,7 +14,7 @@ import java.util.Collection;
  * Created by santjair on 4/19/2018.
  */
 @RestController
-@RequestMapping("/metric")
+@RequestMapping({"/metric","/metrics"})
 public class MetricController {
 
     private final MetricService service;

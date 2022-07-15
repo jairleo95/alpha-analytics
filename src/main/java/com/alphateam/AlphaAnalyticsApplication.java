@@ -1,20 +1,16 @@
 package com.alphateam;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.util.UrlPathHelper;
+// import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+// import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
 
 
 
 //@EnableCircuitBreaker
-@EnableEurekaClient
+// @EnableEurekaClient
 @SpringBootApplication
 public class AlphaAnalyticsApplication /*extends WebMvcConfigurerAdapter*/ {
 
