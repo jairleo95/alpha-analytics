@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.alphateam'
-version = '1.1.1'
+version = '1.2.2'
 sourceCompatibility = '17'
  
 repositories {
@@ -28,11 +28,12 @@ dependencies {
 
     implementation group: 'org.json', name: 'json', version:'20160810'
     //implementation group: 'cglib', name: 'cglib', version:'2.2'
-    implementation group: 'mysql', name: 'mysql-connector-java', version:'5.1.6'
+    runtimeOnly 'mysql:mysql-connector-java'
     implementation group: 'org.mybatis', name: 'mybatis-spring', version: '1.3.0'
     implementation group: 'commons-dbcp', name: 'commons-dbcp', version:'1.2.2'
     implementation group: 'org.jasypt', name: 'jasypt', version:'1.9.0'
     implementation group: 'commons-codec', name: 'commons-codec', version:'1.2'
+    
     //implementation group: 'junit', name: 'junit', version:'4.8.2'
     implementation group: 'javax.inject', name: 'javax.inject', version:'1'
     implementation group: 'oauth.signpost', name: 'signpost-core', version:'1.2.1.1'

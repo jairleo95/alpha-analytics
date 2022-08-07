@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: alpha-analytics
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: alpha-analytics
@@ -14,12 +14,19 @@ spec:
     spec:
       containers:
         - name: app
-          image: jairleo95/alpha-analytics:1.1.1
+          image: jairleo95/alpha-analytics:1.2.2
           ports:
             - containerPort: 8080
-          # env:
-          #   - name: MONGO_URL
-          #     value: mongodb://mongo:27017/dev
+          env:   # Setting Environmental Variables
+            - name: DB_HOST   # Setting Database host address
+              value: mysql-service
+            - name: DB_NAME  # Setting Database name
+              value: alpha_analytics
+            - name: DB_USERNAME  # Setting Database username
+              value: root
+            - name: DB_PASSWORD # Setting Database password
+              value: password
+
           imagePullPolicy: Always
 ---
 apiVersion: v1
@@ -27,7 +34,7 @@ kind: Service
 metadata:
   name: alpha-analytics
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 80
       targetPort: 8080

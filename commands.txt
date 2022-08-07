@@ -1,0 +1,46 @@
+#https://phoenixnap.com/kb/mysql-docker-container
+
+sudo docker pull mysql/mysql-server:latest
+sudo docker images
+
+sudo docker run --name=mysqldb -d mysql/mysql-server:latest
+
+apt-get install mysql-client
+
+sudo docker logs mysqldb
+
+ GENERATED ROOT PASSWORD: 8x=/kV5;LGC0Kl#mq_26B@96_nxSR.2Y
+
+
+sudo docker exec -it mysqldb bash
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
+
+
+#phpmyadmin
+sudo docker pull phpmyadmin/phpmyadmin
+
+docker volume create mysql-data
+docker volume inspect mysql-data
+
+docker run -d --name mysql-server -v mysql-data:/var/lib/mysql --network phpmyadmin-network -p 3306:3306 -e "MYSQL_ROOT_PASSWORD=root" mysql
+
+sudo docker run -d --name phpmyadminweb -p 80:80 --network phpmyadmin-network -e PMA_HOST=mysql-server phpmyadmin/phpmyadmin
+
+
+
+#k8s
+#build docker image
+sudo docker build -t jairleo95/alpha-analytics:1.2.1 .
+
+docker tag jairleo95/alpha-analytics:1.2.1 jairleo95/alpha-analytics:1.2.1
+
+docker push jairleo95/alpha-analytics:1.2.1
+
+
+
+192.168.49.2
+
+
+
+https://jarombek.com/blog/mar-27-2022-mysql-client-kubernetes
