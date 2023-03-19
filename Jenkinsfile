@@ -8,7 +8,7 @@ try{
         // Get some code from a GitHub repository
         git url: 'https://github.com/jairleo95/alpha-analytics.git',
             //credentialsId: 'springdeploy-user',
-            branch: 'mastera'
+            branch: 'master'
      }
     stage('Build docker') {
          dockerImage = docker.build("alpha-analytics:${env.BUILD_NUMBER}")
